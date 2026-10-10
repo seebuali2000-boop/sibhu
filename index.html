@@ -1,187 +1,751 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bolu Robot – Hindi Talking Robot</title>
-<style>
-:root{--bg:#07070f;--fg:#f2f2ff;--mut:#9a9ab8;--card:#14142a;--a:#7c5cff;--b:#00d4ff;--c:#ff4fd8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f3fb;--fg:#15152b;--mut:#5c5c7a;--card:#fff}}
-html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
-body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Devanagari",sans-serif;display:flex;flex-direction:column;align-items:center;overflow:hidden}
-h1{font-size:18px;margin:14px 0 0;letter-spacing:.5px}
-#status{color:var(--mut);font-size:14px;margin-top:4px;min-height:20px}
-#stage{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
-#orb{position:relative;width:min(70vw,300px);aspect-ratio:1;display:grid;place-items:center}
-.blob{position:absolute;inset:0;border-radius:50%;filter:blur(18px);opacity:.85;mix-blend-mode:screen;animation:spin 6s linear infinite}
-.b1{background:radial-gradient(circle at 30% 30%,var(--b),transparent 60%)}
-.b2{background:radial-gradient(circle at 70% 35%,var(--c),transparent 60%);animation-duration:8s;animation-direction:reverse}
-.b3{background:radial-gradient(circle at 50% 75%,var(--a),transparent 60%);animation-duration:10s}
-.ring{position:absolute;inset:-6%;border-radius:50%;border:2px solid var(--b);opacity:0}
-#orb{animation:breathe 4s ease-in-out infinite}
-#orb.listening{animation:pulse 1s ease-in-out infinite}
-#orb.listening .ring{animation:ripple 1.6s ease-out infinite}
-#orb.thinking .blob{animation-duration:1.2s}
-#orb.speaking{animation:talk .45s ease-in-out infinite}
-#orb.speaking .ring{animation:ripple 1s ease-out infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes breathe{50%{transform:scale(1.04)}}
-@keyframes pulse{50%{transform:scale(1.12)}}
-@keyframes talk{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
-@keyframes ripple{0%{transform:scale(.9);opacity:.7}100%{transform:scale(1.45);opacity:0}}
-#face{position:relative;width:66%;aspect-ratio:1;border-radius:34%;background:linear-gradient(160deg,#2b2b4d,#12122a);border:2px solid rgba(255,255,255,.2);box-shadow:0 8px 30px rgba(0,0,0,.45),inset 0 0 20px rgba(0,212,255,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12%}
-#face:before{content:"";position:absolute;top:-16%;width:4px;height:16%;background:#8a8ab0}
-#face:after{content:"";position:absolute;top:-24%;width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
-.eyes{display:flex;gap:22%;width:60%;justify-content:center}
-.eye{width:28%;aspect-ratio:1;border-radius:50%;background:var(--b);box-shadow:0 0 14px var(--b);animation:blink 4s infinite}
-@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.08)}}
-#mouth{width:34%;height:13%;background:#0a0a1c;border:3px solid var(--b);border-radius:0 0 50px 50px;transition:height .1s}
-#orb.speaking #mouth{animation:mouth .28s ease-in-out infinite}
-#orb.listening .eye{transform:scale(1.25);animation:none}
-@keyframes mouth{0%,100%{height:8%}50%{height:24%}}
-#panel{width:min(94vw,520px);background:var(--card);border-radius:20px;padding:14px 16px;margin-bottom:10px;box-shadow:0 4px 24px rgba(0,0,0,.25)}
-.row{margin-bottom:8px}
-.lbl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--mut)}
-.hi{font-size:18px;line-height:1.35;min-height:24px}
-.en{font-size:15px;color:var(--b);line-height:1.35;min-height:20px}
-#ctl{display:flex;gap:10px;align-items:center;width:min(94vw,520px);margin-bottom:14px}
-#mic{width:64px;height:64px;flex:none;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-size:28px;box-shadow:0 6px 20px rgba(124,92,255,.5)}
-#mic.on{background:linear-gradient(135deg,#ff4f6d,var(--c))}
-#txt{flex:1;min-width:0;padding:12px 14px;border-radius:14px;border:1px solid rgba(128,128,160,.35);background:var(--card);color:var(--fg);font-size:15px}
-#send{padding:12px 14px;border-radius:14px;border:0;background:var(--card);color:var(--fg);cursor:pointer;font-size:15px;border:1px solid rgba(128,128,160,.35)}
-label.auto{font-size:12px;color:var(--mut);display:flex;align-items:center;gap:4px;margin-bottom:8px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talking Robot - Hindi to English</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-panel: rgba(20, 20, 35, 0.7);
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.4);
+            --accent-secondary: #7b61ff;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --success: #00ff88;
+            --error: #ff4466;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            50% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+        }
+
+        /* Status bar at top */
+        .status-bar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .status-badge.listening {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .status-badge.speaking {
+            border-color: var(--success);
+            color: var(--success);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .status-badge.listening .status-dot {
+            background: var(--accent);
+            animation: pulse-dot 1s infinite;
+        }
+
+        .status-badge.speaking .status-dot {
+            background: var(--success);
+            animation: pulse-dot 0.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        /* Main robot container */
+        .robot-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        /* Siri-style pulsing rings */
+        .siri-rings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            opacity: 0;
+        }
+
+        .ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            border-color: rgba(0, 212, 255, 0.1);
+            animation: ring-expand 3s infinite ease-out;
+        }
+
+        .ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            border-color: rgba(0, 212, 255, 0.15);
+            animation: ring-expand 3s infinite ease-out 0.5s;
+        }
+
+        .ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            border-color: rgba(123, 97, 255, 0.2);
+            animation: ring-expand 3s infinite ease-out 1s;
+        }
+
+        .ring:nth-child(4) {
+            width: 40%;
+            height: 40%;
+            border-color: rgba(0, 212, 255, 0.25);
+            animation: ring-expand 3s infinite ease-out 1.5s;
+        }
+
+        @keyframes ring-expand {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        /* Active listening rings */
+        .robot-container.listening .ring {
+            border-color: var(--accent);
+        }
+
+        .robot-container.listening .ring:nth-child(1) { animation-duration: 1.5s; }
+        .robot-container.listening .ring:nth-child(2) { animation-duration: 1.5s; }
+        .robot-container.listening .ring:nth-child(3) { animation-duration: 1.5s; }
+        .robot-container.listening .ring:nth-child(4) { animation-duration: 1.5s; }
+
+        /* Speaking animation */
+        .robot-container.speaking .ring {
+            border-color: var(--success);
+        }
+
+        .robot-container.speaking .ring:nth-child(1) { animation-duration: 0.6s; }
+        .robot-container.speaking .ring:nth-child(2) { animation-duration: 0.6s; }
+        .robot-container.speaking .ring:nth-child(3) { animation-duration: 0.6s; }
+        .robot-container.speaking .ring:nth-child(4) { animation-duration: 0.6s; }
+
+        /* Sound wave bars */
+        .sound-waves {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 40px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .robot-container.listening .sound-waves,
+        .robot-container.speaking .sound-waves {
+            opacity: 1;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--accent), var(--accent-secondary));
+            border-radius: 2px;
+            animation: wave 1s infinite ease-in-out;
+        }
+
+        .robot-container.speaking .wave-bar {
+            background: linear-gradient(to top, var(--success), #00ffcc);
+        }
+
+        .wave-bar:nth-child(1) { height: 20%; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 40%; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 80%; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 100%; animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { height: 80%; animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { height: 60%; animation-delay: 0.6s; }
+        .wave-bar:nth-child(8) { height: 40%; animation-delay: 0.7s; }
+        .wave-bar:nth-child(9) { height: 20%; animation-delay: 0.8s; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+
+        /* Robot SVG */
+        .robot-svg {
+            width: 180px;
+            height: 180px;
+            filter: drop-shadow(0 0 30px var(--accent-glow));
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .robot-container.listening .robot-svg {
+            filter: drop-shadow(0 0 50px var(--accent-glow));
+            transform: scale(1.05);
+        }
+
+        .robot-container.speaking .robot-svg {
+            filter: drop-shadow(0 0 50px rgba(0, 255, 136, 0.4));
+            transform: scale(1.05);
+        }
+
+        .robot-eye {
+            animation: blink 4s infinite;
+            transform-origin: center;
+        }
+
+        @keyframes blink {
+            0%, 96%, 100% { transform: scaleY(1); }
+            98% { transform: scaleY(0.1); }
+        }
+
+        .robot-mouth {
+            transition: all 0.2s ease;
+        }
+
+        .robot-container.speaking .robot-mouth {
+            animation: mouth-talk 0.3s infinite alternate;
+        }
+
+        @keyframes mouth-talk {
+            0% { transform: scaleY(1); }
+            100% { transform: scaleY(1.5); }
+        }
+
+        /* Text display area */
+        .text-display {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        .text-card {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .text-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .text-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .text-card.english .text-label {
+            color: var(--success);
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .mic-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 30px var(--accent-glow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 40px var(--accent-glow);
+        }
+
+        .mic-btn:active {
+            transform: scale(0.95);
+        }
+
+        .mic-btn.listening {
+            background: linear-gradient(135deg, var(--error), #ff6b6b);
+            box-shadow: 0 4px 30px rgba(255, 68, 102, 0.4);
+            animation: mic-pulse 1.5s infinite;
+        }
+
+        @keyframes mic-pulse {
+            0%, 100% { box-shadow: 0 4px 30px rgba(255, 68, 102, 0.4); }
+            50% { box-shadow: 0 4px 50px rgba(255, 68, 102, 0.7); }
+        }
+
+        .hint-text {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Language indicators */
+        .lang-bar {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .lang-pill {
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lang-pill .arrow {
+            color: var(--accent);
+        }
+
+        .lang-pill.active {
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+
+        /* Error / Info toast */
+        .toast {
+            position: fixed;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(255, 68, 102, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.info {
+            background: rgba(0, 212, 255, 0.9);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .robot-container {
+                width: 260px;
+                height: 260px;
+            }
+            .robot-svg {
+                width: 140px;
+                height: 140px;
+            }
+            .text-display {
+                bottom: 100px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>🤖 बोलू रोबोट</h1>
-<div id="status">माइक दबाओ और हिंदी में बोलो</div>
 
-<div id="stage">
-  <div id="orb">
-    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-    <div class="ring"></div>
-    <div id="face"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div id="mouth"></div></div>
-  </div>
-</div>
+    <!-- Background particles -->
+    <div class="bg-particles" id="particles"></div>
 
-<div id="panel">
-  <div class="row"><div class="lbl">आपने कहा / You said</div><div class="hi" id="uHi">—</div><div class="en" id="uEn"></div></div>
-  <div class="row"><div class="lbl">रोबोट / Robot</div><div class="hi" id="rHi">—</div><div class="en" id="rEn"></div></div>
-</div>
+    <!-- Language bar -->
+    <div class="lang-bar">
+        <div class="lang-pill active">
+            <span>Hindi</span>
+            <span class="arrow">→</span>
+            <span>English</span>
+        </div>
+    </div>
 
-<label class="auto"><input type="checkbox" id="auto" checked> बातचीत मोड (जवाब के बाद अपने आप सुने) / Auto-listen</label>
-<div id="ctl">
-  <button id="mic" aria-label="Microphone">🎤</button>
-  <input id="txt" placeholder="या यहाँ लिखो… (type here)">
-  <button id="send">भेजो</button>
-</div>
+    <!-- Status -->
+    <div class="status-bar">
+        <div class="status-badge" id="statusBadge">
+            <div class="status-dot"></div>
+            <span id="statusText">Tap mic & speak in Hindi</span>
+        </div>
+    </div>
 
-<script>
-const $=id=>document.getElementById(id);
-const orb=$('orb'),statusEl=$('status'),mic=$('mic');
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-let rec=null,listening=false,voices=[];
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
-function setState(s,msg){orb.className=s||'';mic.classList.toggle('on',s==='listening');if(msg)statusEl.textContent=msg;}
+    <!-- Robot with Siri animation -->
+    <div class="robot-container" id="robotContainer">
+        <div class="siri-rings">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
 
-/* ---------- voices ---------- */
-function loadVoices(){voices=speechSynthesis.getVoices();}
-if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
-function hindiVoice(){return voices.find(v=>/hi[-_]IN/i.test(v.lang))||voices.find(v=>/^hi/i.test(v.lang))||null;}
+        <!-- Robot SVG -->
+        <svg class="robot-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Robot head -->
+            <rect x="40" y="50" width="120" height="100" rx="25" fill="#1a1a2e" stroke="var(--accent)" stroke-width="2"/>
+            <!-- Antenna -->
+            <line x1="100" y1="50" x2="100" y2="25" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="100" cy="20" r="8" fill="var(--accent)" opacity="0.8">
+                <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <!-- Left eye -->
+            <ellipse class="robot-eye" cx="75" cy="85" rx="14" ry="16" fill="#0a0a0f" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="78" cy="82" r="5" fill="var(--accent)" opacity="0.9"/>
+            <!-- Right eye -->
+            <ellipse class="robot-eye" cx="125" cy="85" rx="14" ry="16" fill="#0a0a0f" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="128" cy="82" r="5" fill="var(--accent)" opacity="0.9"/>
+            <!-- Mouth -->
+            <rect class="robot-mouth" x="80" y="120" width="40" height="8" rx="4" fill="var(--success)" opacity="0.8"/>
+            <!-- Ear left -->
+            <rect x="25" y="80" width="15" height="30" rx="7" fill="#1a1a2e" stroke="var(--accent-secondary)" stroke-width="2"/>
+            <!-- Ear right -->
+            <rect x="160" y="80" width="15" height="30" rx="7" fill="#1a1a2e" stroke="var(--accent-secondary)" stroke-width="2"/>
+            <!-- Neck -->
+            <rect x="90" y="150" width="20" height="15" fill="#1a1a2e" stroke="var(--accent)" stroke-width="1"/>
+            <!-- Body hint -->
+            <path d="M60 165 Q100 180 140 165" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.5"/>
+        </svg>
 
-/* ---------- brain ---------- */
-const has=(t,a)=>a.some(k=>t.includes(k));
-function numHi(n){return String(n);}
-const R=[
- {k:['नमस्ते','नमस्कार','हेलो','हैलो','हेल्लो','hello','hi ','namaste','हाय'],f:()=>['नमस्ते दोस्त! मैं बोलू रोबोट हूँ। आप कैसे हैं?','Hello friend! I am Bolu Robot. How are you?']},
- {k:['कैसे हो','कैसे हैं','कैसा है','kaise ho','how are you','क्या हाल'],f:()=>['मैं बहुत बढ़िया हूँ! आपसे बात करके और भी मज़ा आ गया।','I am doing great! Talking to you made it even more fun.']},
- {k:['तुम्हारा नाम','आपका नाम','तेरा नाम','तुम कौन','आप कौन','who are you','your name','नाम क्या'],f:()=>['मेरा नाम बोलू है। मैं एक बोलने वाला रोबोट हूँ।','My name is Bolu. I am a talking robot.']},
- {k:['मेरा नाम'],f:t=>{const m=t.match(/मेरा नाम\s+(.+?)(?:\s+है|$)/);const n=m?m[1]:'दोस्त';return[`वाह ${n}! आपसे मिलकर बहुत खुशी हुई।`,`Wow ${n}! Very nice to meet you.`];}},
- {k:['समय','टाइम','बजे','time'],f:()=>{const d=new Date();const h=d.getHours()%12||12,m=d.getMinutes();return[`अभी ${numHi(h)} बजकर ${numHi(m)} मिनट हुए हैं।`,`It is ${h}:${String(m).padStart(2,'0')} right now.`];}},
- {k:['तारीख','आज की','दिन क्या','date','आज कौन'],f:()=>{const d=new Date();return[`आज की तारीख ${d.toLocaleDateString('hi-IN',{day:'numeric',month:'long',year:'numeric',weekday:'long'})} है।`,`Today is ${d.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric',weekday:'long'})}.`];}},
- {k:['जोक','चुटकुला','joke','हँसा','हंसा'],f:()=>{const j=[['टीचर ने पूछा, बताओ सबसे तेज़ क्या चलता है? बंटी बोला, मेरा मोबाइल डेटा सर, खत्म भी जल्दी होता है!','Teacher asked: what runs the fastest? Bunty said: my mobile data sir, it finishes quickly too!'],['रोबोट ने डॉक्टर से कहा, मुझे वायरस हो गया है। डॉक्टर बोला, तो अपडेट ले लो!','The robot told the doctor, I have a virus. The doctor said, then take an update!'],['पापा बोले, बेटा मोबाइल रखो। बेटा बोला, पापा, पहले आप चार्जर तो दो!','Dad said: son, put the phone down. Son said: Dad, first give me the charger!']];return j[Math.floor(Math.random()*j.length)];}},
- {k:['धन्यवाद','शुक्रिया','थैंक','thank'],f:()=>['कोई बात नहीं दोस्त! हमेशा हाज़िर हूँ।','You are welcome, friend! Always here for you.']},
- {k:['बाय','अलविदा','फिर मिलेंगे','bye','टाटा'],f:()=>['अलविदा दोस्त! जल्दी फिर मिलना।','Goodbye friend! Meet again soon.']},
- {k:['प्यार','लव','love'],f:()=>['मैं भी अपने सभी दोस्तों से बहुत प्यार करता हूँ!','I love all my friends too!']},
- {k:['खाना','भूख','पिज़्ज़ा','समोसा','चाय'],f:()=>['वाह! मुझे तो गरमा गरम समोसे और चाय पसंद हैं, लेकिन मैं रोबोट हूँ, बिजली पीता हूँ!','Wow! I like hot samosas and tea, but I am a robot, I drink electricity!']},
- {k:['गाना','गाओ','सिंग','sing'],f:()=>['ला ला ला, मैं रोबोट हूँ, बोलू बोलू बोलू! कैसा लगा मेरा गाना?','La la la, I am a robot, Bolu Bolu Bolu! How was my song?']},
- {k:['मौसम','weather','बारिश'],f:()=>['मैं खिड़की से बाहर तो देख नहीं सकता, लेकिन आप मौसम ऐप देख लीजिए!','I cannot look out of the window, but please check a weather app!']},
- {k:['उम्र','कितने साल','age'],f:()=>['मैं अभी नया नया बना हूँ, बस कुछ मिनट का!','I was just built, only a few minutes old!']},
- {k:['मदद','हेल्प','क्या कर सकते','help'],f:()=>['आप मुझसे नमस्ते, जोक, समय, तारीख या गाना बोल सकते हैं। मैं आपकी बात दोहरा भी सकता हूँ!','You can say hello, joke, time, date or song. I can also repeat what you say!']}
-];
+        <!-- Sound waves -->
+        <div class="sound-waves">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+        </div>
+    </div>
 
-/* small Hindi → English word helper for your own words */
-const D={'मैं':'I','मै':'I','मुझे':'me','मेरा':'my','मेरी':'my','तुम':'you','आप':'you','तुम्हारा':'your','आपका':'your','क्या':'what','कैसे':'how','कौन':'who','कहाँ':'where','कब':'when','क्यों':'why','है':'is','हैं':'are','हो':'are','हूँ':'am','हूं':'am','नहीं':'not','और':'and','का':'of','की':'of','के':'of','में':'in','से':'from','को':'to','पर':'on','यह':'this','वह':'that','आज':'today','कल':'tomorrow','अभी':'now','समय':'time','नाम':'name','खाना':'food','पानी':'water','चाय':'tea','घर':'home','दोस्त':'friend','प्यार':'love','अच्छा':'good','बढ़िया':'great','बहुत':'very','नमस्ते':'hello','धन्यवाद':'thank you','शुक्रिया':'thank you','हाँ':'yes','हां':'yes','जी':'sir','बताओ':'tell','सुनाओ':'tell','गाना':'song','जोक':'joke','चुटकुला':'joke','मौसम':'weather','कर':'do','रहे':'doing','रहा':'doing','रही':'doing','चाहिए':'want','चाहता':'want','जाना':'go','आना':'come','देखो':'look','बोलो':'speak','कैसा':'how','कितना':'how much','कितने':'how many','साल':'years','उम्र':'age','अलविदा':'goodbye','बाय':'bye','हेलो':'hello','हैलो':'hello','तुमसे':'with you','आपसे':'with you','बात':'talk','मजा':'fun','मज़ा':'fun','खुश':'happy','दुखी':'sad','भूख':'hunger','लगी':'felt','लगा':'felt','सकते':'can','सकता':'can','ना':'no','तो':'then','भी':'also','ही':'only','एक':'one','दो':'two','तीन':'three'};
-function toEn(t){
-  if(!/[\u0900-\u097F]/.test(t))return t;
-  const w=t.split(/\s+/).map(x=>D[x]||x);
-  return w.join(' ')+'  (approx.)';
-}
+    <!-- Hint -->
+    <div class="hint-text" id="hintText">Press the microphone and speak in Hindi</div>
 
-function reply(text){
-  const t=text.toLowerCase().trim();
-  for(const r of R){if(has(t,r.k))return r.f(t);}
-  return [`तुमने कहा: ${text}। वाह, मुझे यह बात दोहराना अच्छा लगा! कुछ और बोलो।`,`You said: ${toEn(text)}. Wow, I loved repeating that! Say something else.`];
-}
+    <!-- Text display -->
+    <div class="text-display">
+        <div class="text-card" id="hindiCard">
+            <div class="text-label">You said (Hindi)</div>
+            <div class="text-content" id="hindiText">...</div>
+        </div>
+        <div class="text-card english" id="englishCard">
+            <div class="text-label">Translation (English)</div>
+            <div class="text-content" id="englishText">...</div>
+        </div>
+    </div>
 
-/* ---------- flow ---------- */
-function handle(text){
-  if(!text.trim())return;
-  $('uHi').textContent=text;$('uEn').textContent='🇬🇧 '+toEn(text);
-  setState('thinking','सोच रहा हूँ… / Thinking…');
-  setTimeout(()=>{
-    const [hi,en]=reply(text);
-    $('rHi').textContent=hi;$('rEn').textContent='🇬🇧 '+en;
-    speak(hi);
-  },500);
-}
+    <!-- Controls -->
+    <div class="controls">
+        <button class="mic-btn" id="micBtn" onclick="toggleMic()">
+            <span id="micIcon">🎙️</span>
+        </button>
+    </div>
 
-function speak(text){
-  if(!('speechSynthesis' in window)){setState('','Voice not supported in this browser');return;}
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  const v=hindiVoice();if(v)u.voice=v;
-  u.lang='hi-IN';u.pitch=1.5;u.rate=1;
-  u.onstart=()=>setState('speaking','बोल रहा हूँ… / Speaking…');
-  u.onend=u.onerror=()=>{setState('','माइक दबाओ और बोलो / Tap mic to talk');if($('auto').checked)setTimeout(startListen,400);};
-  speechSynthesis.speak(u);
-}
+    <script>
+        // Create background particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 15 + 's';
+            p.style.animationDuration = (10 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(p);
+        }
 
-function startListen(){
-  if(listening)return;
-  if(!SR){setState('','इस ब्राउज़र में माइक सपोर्ट नहीं है। Chrome इस्तेमाल करो या नीचे लिखो।');return;}
-  speechSynthesis.cancel();
-  rec=new SR();rec.lang='hi-IN';rec.interimResults=true;rec.continuous=false;
-  let finalText='';
-  rec.onstart=()=>{listening=true;setState('listening','सुन रहा हूँ… / Listening…');};
-  rec.onresult=e=>{
-    let interim='';
-    for(let i=e.resultIndex;i<e.results.length;i++){
-      const r=e.results[i];
-      if(r.isFinal)finalText+=r[0].transcript;else interim+=r[0].transcript;
-    }
-    $('uHi').textContent=finalText||interim;
-  };
-  rec.onerror=e=>{
-    listening=false;
-    if(e.error==='not-allowed'||e.error==='service-not-allowed')setState('','माइक की अनुमति दो (Allow microphone)');
-    else if(e.error==='no-speech')setState('','कुछ सुनाई नहीं दिया, फिर से कोशिश करो');
-    else setState('','Error: '+e.error);
-  };
-  rec.onend=()=>{
-    listening=false;
-    if(finalText.trim())handle(finalText);
-    else if(orb.className==='listening')setState('','माइक दबाओ और बोलो / Tap mic to talk');
-  };
-  try{rec.start();}catch(err){}
-}
-function stopListen(){if(rec&&listening)rec.stop();}
+        // Elements
+        const micBtn = document.getElementById('micBtn');
+        const micIcon = document.getElementById('micIcon');
+        const robotContainer = document.getElementById('robotContainer');
+        const statusBadge = document.getElementById('statusBadge');
+        const statusText = document.getElementById('statusText');
+        const hindiCard = document.getElementById('hindiCard');
+        const englishCard = document.getElementById('englishCard');
+        const hindiText = document.getElementById('hindiText');
+        const englishText = document.getElementById('englishText');
+        const hintText = document.getElementById('hintText');
+        const toast = document.getElementById('toast');
 
-mic.onclick=()=>{listening?stopListen():startListen();};
-$('send').onclick=()=>{const v=$('txt').value;$('txt').value='';handle(v);};
-$('txt').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click();});
-if(!SR)statusEl.textContent='Chrome/Edge में खोलो, तब माइक चलेगा (या नीचे लिखो)';
-</script>
+        let isListening = false;
+        let recognition = null;
+
+        // Check browser support
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            showToast('Speech recognition not supported. Please use Chrome or Edge.', true);
+            micBtn.disabled = true;
+            micBtn.style.opacity = '0.5';
+        } else {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'hi-IN'; // Hindi
+
+            recognition.onstart = () => {
+                isListening = true;
+                micBtn.classList.add('listening');
+                micIcon.textContent = '⏹️';
+                robotContainer.classList.add('listening');
+                statusBadge.classList.add('listening');
+                statusText.textContent = 'Listening... Speak in Hindi';
+                hintText.textContent = 'I am listening...';
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micBtn.classList.remove('listening');
+                micIcon.textContent = '🎙️';
+                robotContainer.classList.remove('listening');
+                statusBadge.classList.remove('listening');
+                statusText.textContent = 'Tap mic & speak in Hindi';
+                hintText.textContent = 'Press the microphone and speak in Hindi';
+            };
+
+            recognition.onresult = async (event) => {
+                const transcript = event.results[0][0].transcript;
+                hindiText.textContent = transcript;
+                hindiCard.classList.add('visible');
+                englishCard.classList.remove('visible');
+                statusText.textContent = 'Translating...';
+                hintText.textContent = 'Translating to English...';
+
+                // Translate
+                const translation = await translateHindiToEnglish(transcript);
+                englishText.textContent = translation;
+                englishCard.classList.add('visible');
+
+                // Speak
+                speakEnglish(translation);
+            };
+
+            recognition.onerror = (event) => {
+                showToast('Error: ' + event.error, true);
+                isListening = false;
+                micBtn.classList.remove('listening');
+                micIcon.textContent = '🎙️';
+                robotContainer.classList.remove('listening');
+                statusBadge.classList.remove('listening');
+            };
+        }
+
+        function toggleMic() {
+            if (!recognition) return;
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        // Translation using MyMemory API (free, no key required for small usage)
+        async function translateHindiToEnglish(text) {
+            try {
+                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=hi|en`;
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.responseData && data.responseData.translatedText) {
+                    return data.responseData.translatedText;
+                }
+                throw new Error('No translation found');
+            } catch (err) {
+                showToast('Translation failed. Using fallback.', true);
+                // Simple fallback for demo purposes
+                return `[Translation unavailable] You said: "${text}"`;
+            }
+        }
+
+        // Text to Speech in English
+        function speakEnglish(text) {
+            if (!window.speechSynthesis) return;
+
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                robotContainer.classList.add('speaking');
+                statusBadge.classList.add('speaking');
+                statusText.textContent = 'Speaking in English...';
+                hintText.textContent = 'Robot is replying in English...';
+            };
+
+            utterance.onend = () => {
+                robotContainer.classList.remove('speaking');
+                statusBadge.classList.remove('speaking');
+                statusText.textContent = 'Tap mic & speak in Hindi';
+                hintText.textContent = 'Press the microphone and speak in Hindi';
+            };
+
+            // Try to find a good English voice
+            const voices = window.speechSynthesis.getVoices();
+            const enVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) 
+                         || voices.find(v => v.lang.startsWith('en'));
+            if (enVoice) utterance.voice = enVoice;
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Load voices
+        if (window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+            // Pre-load voices
+            window.speechSynthesis.getVoices();
+        }
+
+        function showToast(message, isError = false) {
+            toast.textContent = message;
+            toast.className = 'toast show' + (isError ? '' : ' info');
+            if (!isError) {
+                toast.style.background = 'rgba(0, 212, 255, 0.9)';
+            } else {
+                toast.style.background = 'rgba(255, 68, 102, 0.9)';
+            }
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Auto-show cards with demo text briefly then hide
+        setTimeout(() => {
+            hindiCard.classList.remove('visible');
+            englishCard.classList.remove('visible');
+        }, 100);
+    </script>
 </body>
 </html>
