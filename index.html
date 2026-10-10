@@ -1,271 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Gaon Bazaar – Village Online Store</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<title>Bolu Robot – Hindi Talking Robot</title>
 <style>
-:root{--bg:#f6f9f2;--card:#fff;--ink:#17261c;--mute:#5d6b61;--g:#1f6f43;--g2:#e1f0e5;--y:#f5b301;--line:#dfe6dc;--red:#c0392b;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a14;--card:#18261d;--ink:#eaf3ec;--mute:#9db0a2;--g:#52b97c;--g2:#1f3a2a;--line:#2a3d31}}
-:root[data-theme="dark"]{--bg:#101a14;--card:#18261d;--ink:#eaf3ec;--mute:#9db0a2;--g:#52b97c;--g2:#1f3a2a;--line:#2a3d31}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#07070f;--fg:#f2f2ff;--mut:#9a9ab8;--card:#14142a;--a:#7c5cff;--b:#00d4ff;--c:#ff4fd8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f3fb;--fg:#15152b;--mut:#5c5c7a;--card:#fff}}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2",system-ui,sans-serif;font-weight:500;line-height:1.4}
-button,input,select{font:inherit;color:inherit}
-button{cursor:pointer}
-:focus-visible{outline:3px solid var(--y);outline-offset:2px}
-.hide{display:none!important}
-.btn{background:var(--g);color:#fff;border:0;border-radius:10px;padding:9px 18px;font-weight:700}
-.btn.alt{background:transparent;color:var(--g);border:2px solid var(--g)}
-.btn.red{background:var(--red)}
-.btn.sm{padding:5px 14px}
-input,select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);margin-top:4px}
-label{display:block;font-size:.9rem;color:var(--mute);margin-top:10px}
-/* login */
-#login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,var(--g) 0 45%,var(--bg) 45%)}
-.lbox{background:var(--card);border-radius:20px;padding:28px;width:100%;max-width:390px;box-shadow:0 12px 40px rgba(0,0,0,.18)}
-.lbox h1{margin:0;font-size:2rem;font-weight:800;color:var(--g);line-height:1.1}
-.lbox p{margin:4px 0 8px;color:var(--mute)}
-.err{color:var(--red);min-height:1.4em;margin:8px 0 0;font-size:.9rem}
-/* header */
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g);color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-header .logo{font-size:1.5rem;font-weight:800;margin-right:auto}
-header .logo span{color:var(--y)}
-header input{flex:1 1 240px;max-width:520px;margin:0;border:0}
-.hbtn{background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:10px;padding:7px 14px;font-weight:700}
-.hbtn.on{background:var(--y);color:#17261c}
-main{max-width:1100px;margin:0 auto;padding:16px}
-.banner{background:var(--y);color:#17261c;border-radius:16px;padding:18px 22px;margin-bottom:16px}
-.banner b{font-size:1.5rem;font-weight:800;display:block;line-height:1.15}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
-.chip{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:99px;padding:4px 16px}
-.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-.p{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column}
-.pimg{height:110px;border-radius:10px;background:var(--g2);display:grid;place-items:center;font-size:3.4rem;overflow:hidden}
-.pimg img{width:100%;height:100%;object-fit:cover}
-.p h3{margin:8px 0 0;font-size:1rem;line-height:1.2}
-.p small{color:var(--mute)}
-.prow{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
-.price{font-weight:800;font-size:1.1rem}
-.add{border:2px solid var(--g);background:var(--g2);color:var(--g);border-radius:8px;padding:2px 16px;font-weight:800}
-.qty{display:flex;align-items:center;background:var(--g);color:#fff;border-radius:8px}
-.qty button{background:none;border:0;color:#fff;font-size:1.2rem;font-weight:800;padding:0 10px}
-.out{color:var(--red);font-weight:700}
-.empty{text-align:center;color:var(--mute);padding:40px 10px;grid-column:1/-1}
-/* cart */
-#cart{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--card);z-index:20;padding:16px;overflow:auto;box-shadow:-8px 0 30px rgba(0,0,0,.25);transition:transform .25s}
-#cart.closed{transform:translateX(105%)}
-.ci{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
-.ci .e{font-size:1.8rem}.ci div:nth-child(2){flex:1}
-.tot{display:flex;justify-content:space-between;font-size:1.2rem;font-weight:800;margin:12px 0}
-/* admin */
-.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
-.panel h2{margin:0 0 4px;font-size:1.3rem}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tw{overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:480px}
-td,th{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:99px;z-index:30}
-@media(max-width:520px){.two{grid-template-columns:1fr}}
+body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Devanagari",sans-serif;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+h1{font-size:18px;margin:14px 0 0;letter-spacing:.5px}
+#status{color:var(--mut);font-size:14px;margin-top:4px;min-height:20px}
+#stage{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
+#orb{position:relative;width:min(70vw,300px);aspect-ratio:1;display:grid;place-items:center}
+.blob{position:absolute;inset:0;border-radius:50%;filter:blur(18px);opacity:.85;mix-blend-mode:screen;animation:spin 6s linear infinite}
+.b1{background:radial-gradient(circle at 30% 30%,var(--b),transparent 60%)}
+.b2{background:radial-gradient(circle at 70% 35%,var(--c),transparent 60%);animation-duration:8s;animation-direction:reverse}
+.b3{background:radial-gradient(circle at 50% 75%,var(--a),transparent 60%);animation-duration:10s}
+.ring{position:absolute;inset:-6%;border-radius:50%;border:2px solid var(--b);opacity:0}
+#orb{animation:breathe 4s ease-in-out infinite}
+#orb.listening{animation:pulse 1s ease-in-out infinite}
+#orb.listening .ring{animation:ripple 1.6s ease-out infinite}
+#orb.thinking .blob{animation-duration:1.2s}
+#orb.speaking{animation:talk .45s ease-in-out infinite}
+#orb.speaking .ring{animation:ripple 1s ease-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{50%{transform:scale(1.04)}}
+@keyframes pulse{50%{transform:scale(1.12)}}
+@keyframes talk{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+@keyframes ripple{0%{transform:scale(.9);opacity:.7}100%{transform:scale(1.45);opacity:0}}
+#face{position:relative;width:66%;aspect-ratio:1;border-radius:34%;background:linear-gradient(160deg,#2b2b4d,#12122a);border:2px solid rgba(255,255,255,.2);box-shadow:0 8px 30px rgba(0,0,0,.45),inset 0 0 20px rgba(0,212,255,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12%}
+#face:before{content:"";position:absolute;top:-16%;width:4px;height:16%;background:#8a8ab0}
+#face:after{content:"";position:absolute;top:-24%;width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+.eyes{display:flex;gap:22%;width:60%;justify-content:center}
+.eye{width:28%;aspect-ratio:1;border-radius:50%;background:var(--b);box-shadow:0 0 14px var(--b);animation:blink 4s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.08)}}
+#mouth{width:34%;height:13%;background:#0a0a1c;border:3px solid var(--b);border-radius:0 0 50px 50px;transition:height .1s}
+#orb.speaking #mouth{animation:mouth .28s ease-in-out infinite}
+#orb.listening .eye{transform:scale(1.25);animation:none}
+@keyframes mouth{0%,100%{height:8%}50%{height:24%}}
+#panel{width:min(94vw,520px);background:var(--card);border-radius:20px;padding:14px 16px;margin-bottom:10px;box-shadow:0 4px 24px rgba(0,0,0,.25)}
+.row{margin-bottom:8px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--mut)}
+.hi{font-size:18px;line-height:1.35;min-height:24px}
+.en{font-size:15px;color:var(--b);line-height:1.35;min-height:20px}
+#ctl{display:flex;gap:10px;align-items:center;width:min(94vw,520px);margin-bottom:14px}
+#mic{width:64px;height:64px;flex:none;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-size:28px;box-shadow:0 6px 20px rgba(124,92,255,.5)}
+#mic.on{background:linear-gradient(135deg,#ff4f6d,var(--c))}
+#txt{flex:1;min-width:0;padding:12px 14px;border-radius:14px;border:1px solid rgba(128,128,160,.35);background:var(--card);color:var(--fg);font-size:15px}
+#send{padding:12px 14px;border-radius:14px;border:0;background:var(--card);color:var(--fg);cursor:pointer;font-size:15px;border:1px solid rgba(128,128,160,.35)}
+label.auto{font-size:12px;color:var(--mut);display:flex;align-items:center;gap:4px;margin-bottom:8px}
 </style>
 </head>
 <body>
+<h1>🤖 बोलू रोबोट</h1>
+<div id="status">माइक दबाओ और हिंदी में बोलो</div>
 
-<section id="login">
-  <form class="lbox" id="lform" onsubmit="return false">
-    <h1>Gaon Bazaar</h1>
-    <p>Fresh from our village, delivered to your door.</p>
-    <label for="u">Username</label>
-    <input id="u" autocomplete="username" autocapitalize="none">
-    <label for="pw">Password</label>
-    <input id="pw" type="password" autocomplete="current-password">
-    <p class="err" id="lerr" role="alert"></p>
-    <button class="btn" style="width:100%" id="lbtn">Log in as owner</button>
-    <button class="btn alt" style="width:100%;margin-top:10px" id="guest" type="button">Continue as customer</button>
-  </form>
-</section>
-
-<div id="app" class="hide">
-  <header>
-    <div class="logo">Gaon <span>Bazaar</span></div>
-    <input id="q" type="search" placeholder='Search "milk", "rice", "vegetables"' aria-label="Search products">
-    <button class="hbtn on" id="tShop">Shop</button>
-    <button class="hbtn hide" id="tAdmin">Owner panel</button>
-    <button class="hbtn" id="cartBtn">Cart (<span id="cc">0</span>)</button>
-    <button class="hbtn" id="out">Log out</button>
-  </header>
-
-  <main id="shop">
-    <div class="banner"><b>Delivery from our village in 30 minutes</b>Order from local farmers and shops. Pay cash when it arrives.</div>
-    <div class="chips" id="chips"></div>
-    <div class="grid" id="grid"></div>
-  </main>
-
-  <main id="admin" class="hide">
-    <div class="panel">
-      <h2>Add a product</h2>
-      <div class="two">
-        <div><label for="pn">Product name</label><input id="pn" placeholder="Fresh cow milk"></div>
-        <div><label for="pc">Category</label><input id="pc" list="cats" placeholder="Dairy"><datalist id="cats"></datalist></div>
-        <div><label for="pp">Price (₹)</label><input id="pp" type="number" min="0" step="0.5"></div>
-        <div><label for="pu">Unit</label><input id="pu" placeholder="1 litre / 500 g / 1 dozen"></div>
-        <div><label for="ps">Stock available</label><input id="ps" type="number" min="0" value="20"></div>
-        <div><label for="pe">Emoji (if no photo)</label><input id="pe" placeholder="🥛" maxlength="4"></div>
-      </div>
-      <label for="pf">Product photo (optional)</label>
-      <input id="pf" type="file" accept="image/*">
-      <p class="err" id="perr" role="alert"></p>
-      <button class="btn" id="padd">Add product</button>
-    </div>
-
-    <div class="panel">
-      <h2>Order notifications</h2>
-      <label for="wa">Your WhatsApp number with country code (e.g. 919876543210)</label>
-      <input id="wa" inputmode="numeric" placeholder="919876543210">
-      <button class="btn sm" style="margin-top:10px" id="wsave">Save number</button>
-    </div>
-
-    <div class="panel"><h2>Your products</h2><div class="tw"><table id="ptable"></table></div></div>
-    <div class="panel"><h2>Orders</h2><div class="tw"><table id="otable"></table></div></div>
-  </main>
-
-  <aside id="cart" class="closed" aria-label="Cart">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h2 style="margin:0">Your cart</h2><button class="btn alt sm" id="cclose">Close</button>
-    </div>
-    <div id="citems"></div>
-    <div id="cfoot"></div>
-  </aside>
+<div id="stage">
+  <div id="orb">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="ring"></div>
+    <div id="face"><div class="eyes"><div class="eye"></div><div class="eye"></div></div><div id="mouth"></div></div>
+  </div>
 </div>
-<div class="toast hide" id="toast" role="status"></div>
+
+<div id="panel">
+  <div class="row"><div class="lbl">आपने कहा / You said</div><div class="hi" id="uHi">—</div><div class="en" id="uEn"></div></div>
+  <div class="row"><div class="lbl">रोबोट / Robot</div><div class="hi" id="rHi">—</div><div class="en" id="rEn"></div></div>
+</div>
+
+<label class="auto"><input type="checkbox" id="auto" checked> बातचीत मोड (जवाब के बाद अपने आप सुने) / Auto-listen</label>
+<div id="ctl">
+  <button id="mic" aria-label="Microphone">🎤</button>
+  <input id="txt" placeholder="या यहाँ लिखो… (type here)">
+  <button id="send">भेजो</button>
+</div>
 
 <script>
 const $=id=>document.getElementById(id);
-const USER="shibu",PASS="Shibu@1234";
-const seed=[
-["Fresh cow milk","Dairy",32,"500 ml","🥛",40],["Farm eggs","Dairy",84,"1 dozen","🥚",30],["Desi ghee","Dairy",520,"500 g","🧈",12],
-["Tomato","Vegetables",28,"500 g","🍅",50],["Potato","Vegetables",24,"1 kg","🥔",60],["Onion","Vegetables",30,"1 kg","🧅",60],["Spinach","Vegetables",15,"1 bunch","🥬",25],
-["Banana","Fruits",45,"1 dozen","🍌",30],["Mango","Fruits",90,"1 kg","🥭",20],
-["Basmati rice","Grocery",95,"1 kg","🍚",40],["Wheat flour","Grocery",48,"1 kg","🌾",40],["Honey","Grocery",260,"500 g","🍯",15],
-["Bread","Bakery",40,"1 loaf","🍞",20],["Tea leaves","Grocery",120,"250 g","🍵",25]
-].map((a,i)=>({id:"s"+i,name:a[0],cat:a[1],price:a[2],unit:a[3],emoji:a[4],stock:a[5],img:""}));
+const orb=$('orb'),statusEl=$('status'),mic=$('mic');
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec=null,listening=false,voices=[];
 
-const store={
- get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
- set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast("Storage full – use a smaller photo");return false}}
-};
-let products=store.get("gb_products",null)||seed;
-let orders=store.get("gb_orders",[]);
-let wa=store.get("gb_wa","");
-let cart={},cat="All",isOwner=false;
-try{isOwner=sessionStorage.getItem("gb_owner")==="1"}catch(e){}
+function setState(s,msg){orb.className=s||'';mic.classList.toggle('on',s==='listening');if(msg)statusEl.textContent=msg;}
 
-function toast(t){const e=$("toast");e.textContent=t;e.classList.remove("hide");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add("hide"),2500)}
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const save=()=>store.set("gb_products",products);
+/* ---------- voices ---------- */
+function loadVoices(){voices=speechSynthesis.getVoices();}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
+function hindiVoice(){return voices.find(v=>/hi[-_]IN/i.test(v.lang))||voices.find(v=>/^hi/i.test(v.lang))||null;}
 
-/* login */
-function enter(owner){
- isOwner=owner;try{sessionStorage.setItem("gb_owner",owner?"1":"0");sessionStorage.setItem("gb_in","1")}catch(e){}
- $("login").classList.add("hide");$("app").classList.remove("hide");
- $("tAdmin").classList.toggle("hide",!owner);show("shop");render();
-}
-$("lbtn").onclick=()=>{
- if($("u").value.trim().toLowerCase()===USER&&$("pw").value===PASS){enter(true)}
- else $("lerr").textContent="Wrong username or password. Check and try again."
-};
-$("pw").onkeydown=e=>{if(e.key==="Enter")$("lbtn").click()};
-$("guest").onclick=()=>enter(false);
-$("out").onclick=()=>{try{sessionStorage.clear()}catch(e){}isOwner=false;cart={};$("app").classList.add("hide");$("login").classList.remove("hide");$("pw").value="";$("lerr").textContent="";$("cart").classList.add("closed")};
-$("tShop").onclick=()=>show("shop");$("tAdmin").onclick=()=>show("admin");
-function show(v){
- $("shop").classList.toggle("hide",v!=="shop");$("admin").classList.toggle("hide",v!=="admin");
- $("tShop").classList.toggle("on",v==="shop");$("tAdmin").classList.toggle("on",v==="admin");
- if(v==="admin")renderAdmin();
+/* ---------- brain ---------- */
+const has=(t,a)=>a.some(k=>t.includes(k));
+function numHi(n){return String(n);}
+const R=[
+ {k:['नमस्ते','नमस्कार','हेलो','हैलो','हेल्लो','hello','hi ','namaste','हाय'],f:()=>['नमस्ते दोस्त! मैं बोलू रोबोट हूँ। आप कैसे हैं?','Hello friend! I am Bolu Robot. How are you?']},
+ {k:['कैसे हो','कैसे हैं','कैसा है','kaise ho','how are you','क्या हाल'],f:()=>['मैं बहुत बढ़िया हूँ! आपसे बात करके और भी मज़ा आ गया।','I am doing great! Talking to you made it even more fun.']},
+ {k:['तुम्हारा नाम','आपका नाम','तेरा नाम','तुम कौन','आप कौन','who are you','your name','नाम क्या'],f:()=>['मेरा नाम बोलू है। मैं एक बोलने वाला रोबोट हूँ।','My name is Bolu. I am a talking robot.']},
+ {k:['मेरा नाम'],f:t=>{const m=t.match(/मेरा नाम\s+(.+?)(?:\s+है|$)/);const n=m?m[1]:'दोस्त';return[`वाह ${n}! आपसे मिलकर बहुत खुशी हुई।`,`Wow ${n}! Very nice to meet you.`];}},
+ {k:['समय','टाइम','बजे','time'],f:()=>{const d=new Date();const h=d.getHours()%12||12,m=d.getMinutes();return[`अभी ${numHi(h)} बजकर ${numHi(m)} मिनट हुए हैं।`,`It is ${h}:${String(m).padStart(2,'0')} right now.`];}},
+ {k:['तारीख','आज की','दिन क्या','date','आज कौन'],f:()=>{const d=new Date();return[`आज की तारीख ${d.toLocaleDateString('hi-IN',{day:'numeric',month:'long',year:'numeric',weekday:'long'})} है।`,`Today is ${d.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric',weekday:'long'})}.`];}},
+ {k:['जोक','चुटकुला','joke','हँसा','हंसा'],f:()=>{const j=[['टीचर ने पूछा, बताओ सबसे तेज़ क्या चलता है? बंटी बोला, मेरा मोबाइल डेटा सर, खत्म भी जल्दी होता है!','Teacher asked: what runs the fastest? Bunty said: my mobile data sir, it finishes quickly too!'],['रोबोट ने डॉक्टर से कहा, मुझे वायरस हो गया है। डॉक्टर बोला, तो अपडेट ले लो!','The robot told the doctor, I have a virus. The doctor said, then take an update!'],['पापा बोले, बेटा मोबाइल रखो। बेटा बोला, पापा, पहले आप चार्जर तो दो!','Dad said: son, put the phone down. Son said: Dad, first give me the charger!']];return j[Math.floor(Math.random()*j.length)];}},
+ {k:['धन्यवाद','शुक्रिया','थैंक','thank'],f:()=>['कोई बात नहीं दोस्त! हमेशा हाज़िर हूँ।','You are welcome, friend! Always here for you.']},
+ {k:['बाय','अलविदा','फिर मिलेंगे','bye','टाटा'],f:()=>['अलविदा दोस्त! जल्दी फिर मिलना।','Goodbye friend! Meet again soon.']},
+ {k:['प्यार','लव','love'],f:()=>['मैं भी अपने सभी दोस्तों से बहुत प्यार करता हूँ!','I love all my friends too!']},
+ {k:['खाना','भूख','पिज़्ज़ा','समोसा','चाय'],f:()=>['वाह! मुझे तो गरमा गरम समोसे और चाय पसंद हैं, लेकिन मैं रोबोट हूँ, बिजली पीता हूँ!','Wow! I like hot samosas and tea, but I am a robot, I drink electricity!']},
+ {k:['गाना','गाओ','सिंग','sing'],f:()=>['ला ला ला, मैं रोबोट हूँ, बोलू बोलू बोलू! कैसा लगा मेरा गाना?','La la la, I am a robot, Bolu Bolu Bolu! How was my song?']},
+ {k:['मौसम','weather','बारिश'],f:()=>['मैं खिड़की से बाहर तो देख नहीं सकता, लेकिन आप मौसम ऐप देख लीजिए!','I cannot look out of the window, but please check a weather app!']},
+ {k:['उम्र','कितने साल','age'],f:()=>['मैं अभी नया नया बना हूँ, बस कुछ मिनट का!','I was just built, only a few minutes old!']},
+ {k:['मदद','हेल्प','क्या कर सकते','help'],f:()=>['आप मुझसे नमस्ते, जोक, समय, तारीख या गाना बोल सकते हैं। मैं आपकी बात दोहरा भी सकता हूँ!','You can say hello, joke, time, date or song. I can also repeat what you say!']}
+];
+
+/* small Hindi → English word helper for your own words */
+const D={'मैं':'I','मै':'I','मुझे':'me','मेरा':'my','मेरी':'my','तुम':'you','आप':'you','तुम्हारा':'your','आपका':'your','क्या':'what','कैसे':'how','कौन':'who','कहाँ':'where','कब':'when','क्यों':'why','है':'is','हैं':'are','हो':'are','हूँ':'am','हूं':'am','नहीं':'not','और':'and','का':'of','की':'of','के':'of','में':'in','से':'from','को':'to','पर':'on','यह':'this','वह':'that','आज':'today','कल':'tomorrow','अभी':'now','समय':'time','नाम':'name','खाना':'food','पानी':'water','चाय':'tea','घर':'home','दोस्त':'friend','प्यार':'love','अच्छा':'good','बढ़िया':'great','बहुत':'very','नमस्ते':'hello','धन्यवाद':'thank you','शुक्रिया':'thank you','हाँ':'yes','हां':'yes','जी':'sir','बताओ':'tell','सुनाओ':'tell','गाना':'song','जोक':'joke','चुटकुला':'joke','मौसम':'weather','कर':'do','रहे':'doing','रहा':'doing','रही':'doing','चाहिए':'want','चाहता':'want','जाना':'go','आना':'come','देखो':'look','बोलो':'speak','कैसा':'how','कितना':'how much','कितने':'how many','साल':'years','उम्र':'age','अलविदा':'goodbye','बाय':'bye','हेलो':'hello','हैलो':'hello','तुमसे':'with you','आपसे':'with you','बात':'talk','मजा':'fun','मज़ा':'fun','खुश':'happy','दुखी':'sad','भूख':'hunger','लगी':'felt','लगा':'felt','सकते':'can','सकता':'can','ना':'no','तो':'then','भी':'also','ही':'only','एक':'one','दो':'two','तीन':'three'};
+function toEn(t){
+  if(!/[\u0900-\u097F]/.test(t))return t;
+  const w=t.split(/\s+/).map(x=>D[x]||x);
+  return w.join(' ')+'  (approx.)';
 }
 
-/* shop */
-$("q").oninput=renderShop;
-function renderShop(){
- const cats=["All",...new Set(products.map(p=>p.cat))];
- $("chips").innerHTML=cats.map(c=>`<button class="chip ${c===cat?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
- $("chips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderShop()});
- const q=$("q").value.trim().toLowerCase();
- const list=products.filter(p=>(cat==="All"||p.cat===cat)&&(p.name+p.cat).toLowerCase().includes(q));
- $("grid").innerHTML=list.length?list.map(p=>{
-  const n=cart[p.id]||0;
-  const act=p.stock<=0?`<span class="out">Sold out</span>`:n?`<div class="qty"><button data-m="${p.id}" aria-label="Remove one">−</button><span>${n}</span><button data-a="${p.id}" aria-label="Add one">+</button></div>`:`<button class="add" data-a="${p.id}">Add</button>`;
-  return `<div class="p"><div class="pimg">${p.img?`<img src="${p.img}" alt="${esc(p.name)}">`:esc(p.emoji||"🛒")}</div><h3>${esc(p.name)}</h3><small>${esc(p.unit)}</small><div class="prow"><span class="price">₹${p.price}</span>${act}</div></div>`}).join(""):`<div class="empty">No products found. Try another search or category.</div>`;
- $("grid").querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>change(b.dataset.a,1));
- $("grid").querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>change(b.dataset.m,-1));
+function reply(text){
+  const t=text.toLowerCase().trim();
+  for(const r of R){if(has(t,r.k))return r.f(t);}
+  return [`तुमने कहा: ${text}। वाह, मुझे यह बात दोहराना अच्छा लगा! कुछ और बोलो।`,`You said: ${toEn(text)}. Wow, I loved repeating that! Say something else.`];
 }
-function change(id,d){
- const p=products.find(x=>x.id===id);if(!p)return;
- const n=(cart[id]||0)+d;
- if(n>p.stock){toast("Only "+p.stock+" in stock");return}
- if(n<=0)delete cart[id];else cart[id]=n;
- renderShop();renderCart();
-}
-function renderCart(){
- const items=Object.entries(cart).map(([id,n])=>({p:products.find(x=>x.id===id),n})).filter(i=>i.p);
- const count=items.reduce((s,i)=>s+i.n,0),total=items.reduce((s,i)=>s+i.n*i.p.price,0);
- $("cc").textContent=count;
- if(!items.length){$("citems").innerHTML=`<div class="empty">Your cart is empty. Add something from the shop.</div>`;$("cfoot").innerHTML="";return}
- $("citems").innerHTML=items.map(i=>`<div class="ci"><div class="e">${esc(i.p.emoji||"🛒")}</div><div><b>${esc(i.p.name)}</b><br><small>₹${i.p.price} · ${esc(i.p.unit)}</small></div><div class="qty"><button data-m="${i.p.id}" aria-label="Remove one">−</button><span>${i.n}</span><button data-a="${i.p.id}" aria-label="Add one">+</button></div></div>`).join("");
- $("citems").querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>change(b.dataset.a,1));
- $("citems").querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>change(b.dataset.m,-1));
- const fee=total>=299?0:20;
- $("cfoot").innerHTML=`<div class="tot"><span>Items</span><span>₹${total}</span></div><div class="tot" style="font-size:1rem;font-weight:500"><span>Delivery ${fee?"(free above ₹299)":""}</span><span>${fee?"₹"+fee:"Free"}</span></div><div class="tot"><span>Total</span><span>₹${total+fee}</span></div>
- <label for="cn">Your name</label><input id="cn"><label for="cp">Phone number</label><input id="cp" inputmode="tel"><label for="ca">Delivery address (house, landmark, village)</label><input id="ca">
- <p class="err" id="cerr" role="alert"></p><button class="btn" style="width:100%" id="place">Place order · Cash on delivery</button>`;
- $("place").onclick=()=>place(items,total+fee);
-}
-function place(items,total){
- const name=$("cn").value.trim(),phone=$("cp").value.trim(),addr=$("ca").value.trim();
- if(!name||!/^\+?\d{10,13}$/.test(phone.replace(/\s/g,""))||!addr){$("cerr").textContent="Enter your name, a 10-digit phone number and your address.";return}
- const o={id:"GB"+Date.now().toString().slice(-6),time:new Date().toLocaleString(),name,phone,addr,total,status:"New",
-  items:items.map(i=>({name:i.p.name,unit:i.p.unit,n:i.n,price:i.p.price}))};
- items.forEach(i=>{i.p.stock-=i.n});save();
- orders.unshift(o);store.set("gb_orders",orders);cart={};
- const msg=`New order ${o.id}%0A`+o.items.map(i=>`${i.n} x ${i.name} (${i.unit})`).join("%0A")+`%0ATotal: ₹${total} (COD)%0A${name}, ${phone}%0A${addr}`;
- const link=wa?`<a class="btn" style="display:block;text-align:center;text-decoration:none;margin-top:10px" target="_blank" rel="noopener" href="https://wa.me/${wa}?text=${encodeURIComponent(decodeURIComponent(msg))}">Send order on WhatsApp</a>`:"";
- $("citems").innerHTML=`<div class="empty"><div style="font-size:3rem">✅</div><b>Order ${o.id} placed</b><br>Pay ₹${total} in cash on delivery.</div>${link}`;
- $("cfoot").innerHTML="";$("cc").textContent=0;renderShop();
-}
-$("cartBtn").onclick=()=>{renderCart();$("cart").classList.remove("closed")};
-$("cclose").onclick=()=>$("cart").classList.add("closed");
 
-/* admin */
-function renderAdmin(){
- $("cats").innerHTML=[...new Set(products.map(p=>p.cat))].map(c=>`<option value="${esc(c)}">`).join("");
- $("wa").value=wa;
- $("ptable").innerHTML=`<tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>`+products.map(p=>`<tr><td>${p.img?`<img src="${p.img}" alt="" width="36" height="36" style="border-radius:6px;object-fit:cover">`:esc(p.emoji||"🛒")}</td><td>${esc(p.name)}<br><small>${esc(p.unit)}</small></td><td>${esc(p.cat)}</td><td>₹<input style="width:70px" type="number" value="${p.price}" data-pr="${p.id}" aria-label="Price"></td><td><input style="width:70px" type="number" value="${p.stock}" data-st="${p.id}" aria-label="Stock"></td><td><button class="btn red sm" data-d="${p.id}">Delete</button></td></tr>`).join("");
- $("ptable").querySelectorAll("[data-pr]").forEach(i=>i.onchange=()=>{products.find(p=>p.id===i.dataset.pr).price=Math.max(0,+i.value||0);save();renderShop();toast("Price updated")});
- $("ptable").querySelectorAll("[data-st]").forEach(i=>i.onchange=()=>{products.find(p=>p.id===i.dataset.st).stock=Math.max(0,+i.value||0);save();renderShop();toast("Stock updated")});
- $("ptable").querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{if(confirm("Delete this product?")){products=products.filter(p=>p.id!==b.dataset.d);delete cart[b.dataset.d];save();renderAdmin();render()}});
- $("otable").innerHTML=orders.length?`<tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>`+orders.map((o,i)=>`<tr><td>${o.id}<br><small>${esc(o.time)}</small></td><td>${esc(o.name)}<br>${esc(o.phone)}<br><small>${esc(o.addr)}</small></td><td>${o.items.map(x=>`${x.n} × ${esc(x.name)}`).join("<br>")}</td><td>₹${o.total}</td><td><select data-o="${i}" style="width:120px">${["New","Packed","Delivered","Cancelled"].map(s=>`<option ${s===o.status?"selected":""}>${s}</option>`).join("")}</select></td></tr>`).join(""):`<tr><td>No orders yet. They will appear here.</td></tr>`;
- $("otable").querySelectorAll("[data-o]").forEach(s=>s.onchange=()=>{orders[+s.dataset.o].status=s.value;store.set("gb_orders",orders)});
+/* ---------- flow ---------- */
+function handle(text){
+  if(!text.trim())return;
+  $('uHi').textContent=text;$('uEn').textContent='🇬🇧 '+toEn(text);
+  setState('thinking','सोच रहा हूँ… / Thinking…');
+  setTimeout(()=>{
+    const [hi,en]=reply(text);
+    $('rHi').textContent=hi;$('rEn').textContent='🇬🇧 '+en;
+    speak(hi);
+  },500);
 }
-$("wsave").onclick=()=>{wa=$("wa").value.replace(/\D/g,"");store.set("gb_wa",wa);toast("WhatsApp number saved")};
-function resize(file){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const m=360,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(file)})}
-$("padd").onclick=async()=>{
- const name=$("pn").value.trim(),price=parseFloat($("pp").value),cat=$("pc").value.trim()||"Other";
- if(!name||isNaN(price)||price<0){$("perr").textContent="Enter a product name and a price.";return}
- $("perr").textContent="";
- let img="";const f=$("pf").files[0];
- if(f){try{img=await resize(f)}catch(e){$("perr").textContent="Could not read that photo. Try another one.";return}}
- products.unshift({id:"p"+Date.now(),name,cat,price,unit:$("pu").value.trim()||"1 piece",emoji:$("pe").value.trim()||"🛒",stock:Math.max(0,parseInt($("ps").value)||0),img});
- if(!save()){products.shift();return}
- ["pn","pp","pc","pu","pe","pf"].forEach(k=>$(k).value="");
- toast("Product added");renderAdmin();renderShop();
-};
-function render(){renderShop();renderCart()}
 
-/* resume session */
-try{if(sessionStorage.getItem("gb_in")==="1")enter(isOwner)}catch(e){}
+function speak(text){
+  if(!('speechSynthesis' in window)){setState('','Voice not supported in this browser');return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  const v=hindiVoice();if(v)u.voice=v;
+  u.lang='hi-IN';u.pitch=1.5;u.rate=1;
+  u.onstart=()=>setState('speaking','बोल रहा हूँ… / Speaking…');
+  u.onend=u.onerror=()=>{setState('','माइक दबाओ और बोलो / Tap mic to talk');if($('auto').checked)setTimeout(startListen,400);};
+  speechSynthesis.speak(u);
+}
+
+function startListen(){
+  if(listening)return;
+  if(!SR){setState('','इस ब्राउज़र में माइक सपोर्ट नहीं है। Chrome इस्तेमाल करो या नीचे लिखो।');return;}
+  speechSynthesis.cancel();
+  rec=new SR();rec.lang='hi-IN';rec.interimResults=true;rec.continuous=false;
+  let finalText='';
+  rec.onstart=()=>{listening=true;setState('listening','सुन रहा हूँ… / Listening…');};
+  rec.onresult=e=>{
+    let interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const r=e.results[i];
+      if(r.isFinal)finalText+=r[0].transcript;else interim+=r[0].transcript;
+    }
+    $('uHi').textContent=finalText||interim;
+  };
+  rec.onerror=e=>{
+    listening=false;
+    if(e.error==='not-allowed'||e.error==='service-not-allowed')setState('','माइक की अनुमति दो (Allow microphone)');
+    else if(e.error==='no-speech')setState('','कुछ सुनाई नहीं दिया, फिर से कोशिश करो');
+    else setState('','Error: '+e.error);
+  };
+  rec.onend=()=>{
+    listening=false;
+    if(finalText.trim())handle(finalText);
+    else if(orb.className==='listening')setState('','माइक दबाओ और बोलो / Tap mic to talk');
+  };
+  try{rec.start();}catch(err){}
+}
+function stopListen(){if(rec&&listening)rec.stop();}
+
+mic.onclick=()=>{listening?stopListen():startListen();};
+$('send').onclick=()=>{const v=$('txt').value;$('txt').value='';handle(v);};
+$('txt').addEventListener('keydown',e=>{if(e.key==='Enter')$('send').click();});
+if(!SR)statusEl.textContent='Chrome/Edge में खोलो, तब माइक चलेगा (या नीचे लिखो)';
 </script>
 </body>
 </html>
