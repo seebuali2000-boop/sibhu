@@ -1,126 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bright Full Moon Animation</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gaon Bazaar – Village Online Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0; width: 100%; height: 100%; overflow: hidden;
-    background: #020617;
-  }
-  .sky {
-    position: relative; width: 100vw; height: 100vh; overflow: hidden;
-    background:
-      radial-gradient(ellipse at 50% 48%, rgba(19, 39, 79, .45) 0%, transparent 48%),
-      linear-gradient(180deg, #020617 0%, #07132d 55%, #020617 100%);
-  }
-  .stars, .stars::before, .stars::after {
-    position: absolute; inset: 0; content: "";
-    background-repeat: repeat;
-    pointer-events: none;
-  }
-  .stars {
-    opacity: .9;
-    background-image:
-      radial-gradient(2px 2px at 24px 40px, #fff 98%, transparent),
-      radial-gradient(1px 1px at 90px 130px, #dbeafe 98%, transparent),
-      radial-gradient(1.5px 1.5px at 180px 70px, #fff 98%, transparent),
-      radial-gradient(1px 1px at 250px 190px, #bfdbfe 98%, transparent),
-      radial-gradient(2px 2px at 320px 30px, #fff 98%, transparent),
-      radial-gradient(1px 1px at 390px 150px, #fff 98%, transparent);
-    background-size: 420px 230px;
-    animation: drift 80s linear infinite;
-  }
-  .stars::before {
-    opacity: .75;
-    background-image:
-      radial-gradient(1px 1px at 45px 95px, #fff 98%, transparent),
-      radial-gradient(1px 1px at 150px 20px, #fff 98%, transparent),
-      radial-gradient(2px 2px at 280px 120px, #e0f2fe 98%, transparent),
-      radial-gradient(1px 1px at 360px 210px, #fff 98%, transparent);
-    background-size: 370px 260px;
-    animation: twinkle 3.8s ease-in-out infinite alternate;
-  }
-  .stars::after {
-    opacity: .45;
-    background-image:
-      radial-gradient(1px 1px at 70px 60px, #fff 98%, transparent),
-      radial-gradient(1px 1px at 210px 180px, #fff 98%, transparent),
-      radial-gradient(1.5px 1.5px at 330px 90px, #dbeafe 98%, transparent);
-    background-size: 440px 290px;
-    animation: twinkle 5s ease-in-out infinite alternate-reverse;
-  }
-  .moon-wrap {
-    position: absolute; left: 50%; top: 46%;
-    width: min(48vw, 48vh, 390px);
-    aspect-ratio: 1;
-    transform: translate(-50%, -50%);
-    animation: moonZoom 8s ease-in-out infinite;
-    filter: drop-shadow(0 0 28px rgba(191, 219, 254, .35));
-  }
-  .moon {
-    width: 100%; height: 100%; border-radius: 50%; position: relative;
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 35% 28%, rgba(255,255,255,.98) 0%, rgba(239,246,255,.98) 22%, rgba(203,218,239,.98) 57%, #9aaecb 100%);
-    box-shadow:
-      0 0 18px 6px rgba(219,234,254,.48),
-      0 0 55px 18px rgba(147,197,253,.23),
-      inset -18px -14px 35px rgba(51,65,85,.3),
-      inset 9px 8px 22px rgba(255,255,255,.8);
-  }
-  /* Soft lunar craters */
-  .crater {
-    position: absolute; border-radius: 50%;
-    background: rgba(115, 133, 160, .12);
-    box-shadow: inset 4px 5px 8px rgba(65, 80, 105, .22),
-                inset -3px -3px 5px rgba(255,255,255,.22);
-  }
-  .c1 { width: 18%; height: 18%; left: 22%; top: 22%; }
-  .c2 { width: 10%; height: 10%; left: 58%; top: 25%; }
-  .c3 { width: 23%; height: 23%; left: 48%; top: 53%; }
-  .c4 { width: 12%; height: 12%; left: 25%; top: 63%; }
-  .c5 { width: 8%; height: 8%; left: 70%; top: 48%; }
-  .c6 { width: 7%; height: 7%; left: 40%; top: 42%; }
-  .horizon-glow {
-    position: absolute; left: 50%; top: 74%; width: 70vw; height: 25vh;
-    transform: translateX(-50%);
-    background: radial-gradient(ellipse, rgba(59,130,246,.12), transparent 70%);
-    filter: blur(20px);
-  }
-  @keyframes moonZoom {
-    0%, 100% { transform: translate(-50%, -50%) scale(.96); }
-    50% { transform: translate(-50%, -50%) scale(1.06); }
-  }
-  @keyframes twinkle {
-    from { opacity: .25; }
-    to { opacity: .95; }
-  }
-  @keyframes drift {
-    from { transform: translateY(0); }
-    to { transform: translateY(-230px); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .moon-wrap, .stars, .stars::before, .stars::after { animation: none; }
-  }
+:root{--bg:#f6f9f2;--card:#fff;--ink:#17261c;--mute:#5d6b61;--g:#1f6f43;--g2:#e1f0e5;--y:#f5b301;--line:#dfe6dc;--red:#c0392b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a14;--card:#18261d;--ink:#eaf3ec;--mute:#9db0a2;--g:#52b97c;--g2:#1f3a2a;--line:#2a3d31}}
+:root[data-theme="dark"]{--bg:#101a14;--card:#18261d;--ink:#eaf3ec;--mute:#9db0a2;--g:#52b97c;--g2:#1f3a2a;--line:#2a3d31}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2",system-ui,sans-serif;font-weight:500;line-height:1.4}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.hide{display:none!important}
+.btn{background:var(--g);color:#fff;border:0;border-radius:10px;padding:9px 18px;font-weight:700}
+.btn.alt{background:transparent;color:var(--g);border:2px solid var(--g)}
+.btn.red{background:var(--red)}
+.btn.sm{padding:5px 14px}
+input,select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);margin-top:4px}
+label{display:block;font-size:.9rem;color:var(--mute);margin-top:10px}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(160deg,var(--g) 0 45%,var(--bg) 45%)}
+.lbox{background:var(--card);border-radius:20px;padding:28px;width:100%;max-width:390px;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.lbox h1{margin:0;font-size:2rem;font-weight:800;color:var(--g);line-height:1.1}
+.lbox p{margin:4px 0 8px;color:var(--mute)}
+.err{color:var(--red);min-height:1.4em;margin:8px 0 0;font-size:.9rem}
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g);color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header .logo{font-size:1.5rem;font-weight:800;margin-right:auto}
+header .logo span{color:var(--y)}
+header input{flex:1 1 240px;max-width:520px;margin:0;border:0}
+.hbtn{background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:10px;padding:7px 14px;font-weight:700}
+.hbtn.on{background:var(--y);color:#17261c}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.banner{background:var(--y);color:#17261c;border-radius:16px;padding:18px 22px;margin-bottom:16px}
+.banner b{font-size:1.5rem;font-weight:800;display:block;line-height:1.15}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:99px;padding:4px 16px}
+.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column}
+.pimg{height:110px;border-radius:10px;background:var(--g2);display:grid;place-items:center;font-size:3.4rem;overflow:hidden}
+.pimg img{width:100%;height:100%;object-fit:cover}
+.p h3{margin:8px 0 0;font-size:1rem;line-height:1.2}
+.p small{color:var(--mute)}
+.prow{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
+.price{font-weight:800;font-size:1.1rem}
+.add{border:2px solid var(--g);background:var(--g2);color:var(--g);border-radius:8px;padding:2px 16px;font-weight:800}
+.qty{display:flex;align-items:center;background:var(--g);color:#fff;border-radius:8px}
+.qty button{background:none;border:0;color:#fff;font-size:1.2rem;font-weight:800;padding:0 10px}
+.out{color:var(--red);font-weight:700}
+.empty{text-align:center;color:var(--mute);padding:40px 10px;grid-column:1/-1}
+/* cart */
+#cart{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--card);z-index:20;padding:16px;overflow:auto;box-shadow:-8px 0 30px rgba(0,0,0,.25);transition:transform .25s}
+#cart.closed{transform:translateX(105%)}
+.ci{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.ci .e{font-size:1.8rem}.ci div:nth-child(2){flex:1}
+.tot{display:flex;justify-content:space-between;font-size:1.2rem;font-weight:800;margin:12px 0}
+/* admin */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.panel h2{margin:0 0 4px;font-size:1.3rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px}
+td,th{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:99px;z-index:30}
+@media(max-width:520px){.two{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-  <main class="sky" aria-label="Bright full moon and stars animated night sky">
-    <div class="stars"></div>
-    <div class="horizon-glow"></div>
-    <div class="moon-wrap">
-      <div class="moon">
-        <span class="crater c1"></span>
-        <span class="crater c2"></span>
-        <span class="crater c3"></span>
-        <span class="crater c4"></span>
-        <span class="crater c5"></span>
-        <span class="crater c6"></span>
-      </div>
-    </div>
+
+<section id="login">
+  <form class="lbox" id="lform" onsubmit="return false">
+    <h1>Gaon Bazaar</h1>
+    <p>Fresh from our village, delivered to your door.</p>
+    <label for="u">Username</label>
+    <input id="u" autocomplete="username" autocapitalize="none">
+    <label for="pw">Password</label>
+    <input id="pw" type="password" autocomplete="current-password">
+    <p class="err" id="lerr" role="alert"></p>
+    <button class="btn" style="width:100%" id="lbtn">Log in as owner</button>
+    <button class="btn alt" style="width:100%;margin-top:10px" id="guest" type="button">Continue as customer</button>
+  </form>
+</section>
+
+<div id="app" class="hide">
+  <header>
+    <div class="logo">Gaon <span>Bazaar</span></div>
+    <input id="q" type="search" placeholder='Search "milk", "rice", "vegetables"' aria-label="Search products">
+    <button class="hbtn on" id="tShop">Shop</button>
+    <button class="hbtn hide" id="tAdmin">Owner panel</button>
+    <button class="hbtn" id="cartBtn">Cart (<span id="cc">0</span>)</button>
+    <button class="hbtn" id="out">Log out</button>
+  </header>
+
+  <main id="shop">
+    <div class="banner"><b>Delivery from our village in 30 minutes</b>Order from local farmers and shops. Pay cash when it arrives.</div>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="grid"></div>
   </main>
+
+  <main id="admin" class="hide">
+    <div class="panel">
+      <h2>Add a product</h2>
+      <div class="two">
+        <div><label for="pn">Product name</label><input id="pn" placeholder="Fresh cow milk"></div>
+        <div><label for="pc">Category</label><input id="pc" list="cats" placeholder="Dairy"><datalist id="cats"></datalist></div>
+        <div><label for="pp">Price (₹)</label><input id="pp" type="number" min="0" step="0.5"></div>
+        <div><label for="pu">Unit</label><input id="pu" placeholder="1 litre / 500 g / 1 dozen"></div>
+        <div><label for="ps">Stock available</label><input id="ps" type="number" min="0" value="20"></div>
+        <div><label for="pe">Emoji (if no photo)</label><input id="pe" placeholder="🥛" maxlength="4"></div>
+      </div>
+      <label for="pf">Product photo (optional)</label>
+      <input id="pf" type="file" accept="image/*">
+      <p class="err" id="perr" role="alert"></p>
+      <button class="btn" id="padd">Add product</button>
+    </div>
+
+    <div class="panel">
+      <h2>Order notifications</h2>
+      <label for="wa">Your WhatsApp number with country code (e.g. 919876543210)</label>
+      <input id="wa" inputmode="numeric" placeholder="919876543210">
+      <button class="btn sm" style="margin-top:10px" id="wsave">Save number</button>
+    </div>
+
+    <div class="panel"><h2>Your products</h2><div class="tw"><table id="ptable"></table></div></div>
+    <div class="panel"><h2>Orders</h2><div class="tw"><table id="otable"></table></div></div>
+  </main>
+
+  <aside id="cart" class="closed" aria-label="Cart">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2 style="margin:0">Your cart</h2><button class="btn alt sm" id="cclose">Close</button>
+    </div>
+    <div id="citems"></div>
+    <div id="cfoot"></div>
+  </aside>
+</div>
+<div class="toast hide" id="toast" role="status"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const USER="shibu",PASS="Shibu@1234";
+const seed=[
+["Fresh cow milk","Dairy",32,"500 ml","🥛",40],["Farm eggs","Dairy",84,"1 dozen","🥚",30],["Desi ghee","Dairy",520,"500 g","🧈",12],
+["Tomato","Vegetables",28,"500 g","🍅",50],["Potato","Vegetables",24,"1 kg","🥔",60],["Onion","Vegetables",30,"1 kg","🧅",60],["Spinach","Vegetables",15,"1 bunch","🥬",25],
+["Banana","Fruits",45,"1 dozen","🍌",30],["Mango","Fruits",90,"1 kg","🥭",20],
+["Basmati rice","Grocery",95,"1 kg","🍚",40],["Wheat flour","Grocery",48,"1 kg","🌾",40],["Honey","Grocery",260,"500 g","🍯",15],
+["Bread","Bakery",40,"1 loaf","🍞",20],["Tea leaves","Grocery",120,"250 g","🍵",25]
+].map((a,i)=>({id:"s"+i,name:a[0],cat:a[1],price:a[2],unit:a[3],emoji:a[4],stock:a[5],img:""}));
+
+const store={
+ get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+ set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast("Storage full – use a smaller photo");return false}}
+};
+let products=store.get("gb_products",null)||seed;
+let orders=store.get("gb_orders",[]);
+let wa=store.get("gb_wa","");
+let cart={},cat="All",isOwner=false;
+try{isOwner=sessionStorage.getItem("gb_owner")==="1"}catch(e){}
+
+function toast(t){const e=$("toast");e.textContent=t;e.classList.remove("hide");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add("hide"),2500)}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const save=()=>store.set("gb_products",products);
+
+/* login */
+function enter(owner){
+ isOwner=owner;try{sessionStorage.setItem("gb_owner",owner?"1":"0");sessionStorage.setItem("gb_in","1")}catch(e){}
+ $("login").classList.add("hide");$("app").classList.remove("hide");
+ $("tAdmin").classList.toggle("hide",!owner);show("shop");render();
+}
+$("lbtn").onclick=()=>{
+ if($("u").value.trim().toLowerCase()===USER&&$("pw").value===PASS){enter(true)}
+ else $("lerr").textContent="Wrong username or password. Check and try again."
+};
+$("pw").onkeydown=e=>{if(e.key==="Enter")$("lbtn").click()};
+$("guest").onclick=()=>enter(false);
+$("out").onclick=()=>{try{sessionStorage.clear()}catch(e){}isOwner=false;cart={};$("app").classList.add("hide");$("login").classList.remove("hide");$("pw").value="";$("lerr").textContent="";$("cart").classList.add("closed")};
+$("tShop").onclick=()=>show("shop");$("tAdmin").onclick=()=>show("admin");
+function show(v){
+ $("shop").classList.toggle("hide",v!=="shop");$("admin").classList.toggle("hide",v!=="admin");
+ $("tShop").classList.toggle("on",v==="shop");$("tAdmin").classList.toggle("on",v==="admin");
+ if(v==="admin")renderAdmin();
+}
+
+/* shop */
+$("q").oninput=renderShop;
+function renderShop(){
+ const cats=["All",...new Set(products.map(p=>p.cat))];
+ $("chips").innerHTML=cats.map(c=>`<button class="chip ${c===cat?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+ $("chips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderShop()});
+ const q=$("q").value.trim().toLowerCase();
+ const list=products.filter(p=>(cat==="All"||p.cat===cat)&&(p.name+p.cat).toLowerCase().includes(q));
+ $("grid").innerHTML=list.length?list.map(p=>{
+  const n=cart[p.id]||0;
+  const act=p.stock<=0?`<span class="out">Sold out</span>`:n?`<div class="qty"><button data-m="${p.id}" aria-label="Remove one">−</button><span>${n}</span><button data-a="${p.id}" aria-label="Add one">+</button></div>`:`<button class="add" data-a="${p.id}">Add</button>`;
+  return `<div class="p"><div class="pimg">${p.img?`<img src="${p.img}" alt="${esc(p.name)}">`:esc(p.emoji||"🛒")}</div><h3>${esc(p.name)}</h3><small>${esc(p.unit)}</small><div class="prow"><span class="price">₹${p.price}</span>${act}</div></div>`}).join(""):`<div class="empty">No products found. Try another search or category.</div>`;
+ $("grid").querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>change(b.dataset.a,1));
+ $("grid").querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>change(b.dataset.m,-1));
+}
+function change(id,d){
+ const p=products.find(x=>x.id===id);if(!p)return;
+ const n=(cart[id]||0)+d;
+ if(n>p.stock){toast("Only "+p.stock+" in stock");return}
+ if(n<=0)delete cart[id];else cart[id]=n;
+ renderShop();renderCart();
+}
+function renderCart(){
+ const items=Object.entries(cart).map(([id,n])=>({p:products.find(x=>x.id===id),n})).filter(i=>i.p);
+ const count=items.reduce((s,i)=>s+i.n,0),total=items.reduce((s,i)=>s+i.n*i.p.price,0);
+ $("cc").textContent=count;
+ if(!items.length){$("citems").innerHTML=`<div class="empty">Your cart is empty. Add something from the shop.</div>`;$("cfoot").innerHTML="";return}
+ $("citems").innerHTML=items.map(i=>`<div class="ci"><div class="e">${esc(i.p.emoji||"🛒")}</div><div><b>${esc(i.p.name)}</b><br><small>₹${i.p.price} · ${esc(i.p.unit)}</small></div><div class="qty"><button data-m="${i.p.id}" aria-label="Remove one">−</button><span>${i.n}</span><button data-a="${i.p.id}" aria-label="Add one">+</button></div></div>`).join("");
+ $("citems").querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>change(b.dataset.a,1));
+ $("citems").querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>change(b.dataset.m,-1));
+ const fee=total>=299?0:20;
+ $("cfoot").innerHTML=`<div class="tot"><span>Items</span><span>₹${total}</span></div><div class="tot" style="font-size:1rem;font-weight:500"><span>Delivery ${fee?"(free above ₹299)":""}</span><span>${fee?"₹"+fee:"Free"}</span></div><div class="tot"><span>Total</span><span>₹${total+fee}</span></div>
+ <label for="cn">Your name</label><input id="cn"><label for="cp">Phone number</label><input id="cp" inputmode="tel"><label for="ca">Delivery address (house, landmark, village)</label><input id="ca">
+ <p class="err" id="cerr" role="alert"></p><button class="btn" style="width:100%" id="place">Place order · Cash on delivery</button>`;
+ $("place").onclick=()=>place(items,total+fee);
+}
+function place(items,total){
+ const name=$("cn").value.trim(),phone=$("cp").value.trim(),addr=$("ca").value.trim();
+ if(!name||!/^\+?\d{10,13}$/.test(phone.replace(/\s/g,""))||!addr){$("cerr").textContent="Enter your name, a 10-digit phone number and your address.";return}
+ const o={id:"GB"+Date.now().toString().slice(-6),time:new Date().toLocaleString(),name,phone,addr,total,status:"New",
+  items:items.map(i=>({name:i.p.name,unit:i.p.unit,n:i.n,price:i.p.price}))};
+ items.forEach(i=>{i.p.stock-=i.n});save();
+ orders.unshift(o);store.set("gb_orders",orders);cart={};
+ const msg=`New order ${o.id}%0A`+o.items.map(i=>`${i.n} x ${i.name} (${i.unit})`).join("%0A")+`%0ATotal: ₹${total} (COD)%0A${name}, ${phone}%0A${addr}`;
+ const link=wa?`<a class="btn" style="display:block;text-align:center;text-decoration:none;margin-top:10px" target="_blank" rel="noopener" href="https://wa.me/${wa}?text=${encodeURIComponent(decodeURIComponent(msg))}">Send order on WhatsApp</a>`:"";
+ $("citems").innerHTML=`<div class="empty"><div style="font-size:3rem">✅</div><b>Order ${o.id} placed</b><br>Pay ₹${total} in cash on delivery.</div>${link}`;
+ $("cfoot").innerHTML="";$("cc").textContent=0;renderShop();
+}
+$("cartBtn").onclick=()=>{renderCart();$("cart").classList.remove("closed")};
+$("cclose").onclick=()=>$("cart").classList.add("closed");
+
+/* admin */
+function renderAdmin(){
+ $("cats").innerHTML=[...new Set(products.map(p=>p.cat))].map(c=>`<option value="${esc(c)}">`).join("");
+ $("wa").value=wa;
+ $("ptable").innerHTML=`<tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>`+products.map(p=>`<tr><td>${p.img?`<img src="${p.img}" alt="" width="36" height="36" style="border-radius:6px;object-fit:cover">`:esc(p.emoji||"🛒")}</td><td>${esc(p.name)}<br><small>${esc(p.unit)}</small></td><td>${esc(p.cat)}</td><td>₹<input style="width:70px" type="number" value="${p.price}" data-pr="${p.id}" aria-label="Price"></td><td><input style="width:70px" type="number" value="${p.stock}" data-st="${p.id}" aria-label="Stock"></td><td><button class="btn red sm" data-d="${p.id}">Delete</button></td></tr>`).join("");
+ $("ptable").querySelectorAll("[data-pr]").forEach(i=>i.onchange=()=>{products.find(p=>p.id===i.dataset.pr).price=Math.max(0,+i.value||0);save();renderShop();toast("Price updated")});
+ $("ptable").querySelectorAll("[data-st]").forEach(i=>i.onchange=()=>{products.find(p=>p.id===i.dataset.st).stock=Math.max(0,+i.value||0);save();renderShop();toast("Stock updated")});
+ $("ptable").querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{if(confirm("Delete this product?")){products=products.filter(p=>p.id!==b.dataset.d);delete cart[b.dataset.d];save();renderAdmin();render()}});
+ $("otable").innerHTML=orders.length?`<tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>`+orders.map((o,i)=>`<tr><td>${o.id}<br><small>${esc(o.time)}</small></td><td>${esc(o.name)}<br>${esc(o.phone)}<br><small>${esc(o.addr)}</small></td><td>${o.items.map(x=>`${x.n} × ${esc(x.name)}`).join("<br>")}</td><td>₹${o.total}</td><td><select data-o="${i}" style="width:120px">${["New","Packed","Delivered","Cancelled"].map(s=>`<option ${s===o.status?"selected":""}>${s}</option>`).join("")}</select></td></tr>`).join(""):`<tr><td>No orders yet. They will appear here.</td></tr>`;
+ $("otable").querySelectorAll("[data-o]").forEach(s=>s.onchange=()=>{orders[+s.dataset.o].status=s.value;store.set("gb_orders",orders)});
+}
+$("wsave").onclick=()=>{wa=$("wa").value.replace(/\D/g,"");store.set("gb_wa",wa);toast("WhatsApp number saved")};
+function resize(file){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const m=360,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(file)})}
+$("padd").onclick=async()=>{
+ const name=$("pn").value.trim(),price=parseFloat($("pp").value),cat=$("pc").value.trim()||"Other";
+ if(!name||isNaN(price)||price<0){$("perr").textContent="Enter a product name and a price.";return}
+ $("perr").textContent="";
+ let img="";const f=$("pf").files[0];
+ if(f){try{img=await resize(f)}catch(e){$("perr").textContent="Could not read that photo. Try another one.";return}}
+ products.unshift({id:"p"+Date.now(),name,cat,price,unit:$("pu").value.trim()||"1 piece",emoji:$("pe").value.trim()||"🛒",stock:Math.max(0,parseInt($("ps").value)||0),img});
+ if(!save()){products.shift();return}
+ ["pn","pp","pc","pu","pe","pf"].forEach(k=>$(k).value="");
+ toast("Product added");renderAdmin();renderShop();
+};
+function render(){renderShop();renderCart()}
+
+/* resume session */
+try{if(sessionStorage.getItem("gb_in")==="1")enter(isOwner)}catch(e){}
+</script>
 </body>
 </html>
